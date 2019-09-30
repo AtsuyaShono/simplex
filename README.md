@@ -6,12 +6,12 @@
 $ git clone https://github.com/AtsuyaShono/simplex
 ~~~
 
-**Step 2:** Include this file and use
+**Step 2:** Include "simplex.hpp" file and use
 ```c++
 #include "simplex.hpp"
 
 ...
-simplex lp;
+simplex lp; //Declare class
 
 lp.fileload("input file path"); //Input from "lp" file
 
