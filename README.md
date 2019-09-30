@@ -17,7 +17,7 @@ lp.fileload("input file path"); //Input from "lp" file
 
 lp.calc(); //Calculate and output the result
 
-//結果出力
+//Result
 cout << "ANS" << endl;
 for(const auto& e : lp.base)
         cout << e << " = " << lp.ans[e] << endl;
@@ -35,8 +35,9 @@ Maximize
  r_3: 2 x_1 + x_2 <= 4
 End
 ```
+### Rules
+#### 1.
 
-
-### 1.1. Dependencies
+## 3. Dependencies
 
 * Tested by Apple clang version 11.0.0 (clang-1100.0.33.8)
