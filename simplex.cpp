@@ -23,7 +23,11 @@ vector<float> con_num; //定数項:con_num[制約式の番号] = 定数
 
 public:
 int slack; //スラック変数の数カウント
+<<<<<<< HEAD
 vector<vector <float> > tab;   //計算用配列 tab[0]:目的関数の行
+=======
+vector<vector <float> > tab;   //計算用配列
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
 vector<string> base; //基底変数名
 map<string, float> ans; //解:ans[変数名] = 解 ans[z] = 最適解
 
@@ -43,7 +47,11 @@ void simplex::fileload(char *filename){
         ifstream ifs(filename); //ファイルストリーム
 
         if(!ifs) { //開かなかった場合
+<<<<<<< HEAD
                 cout << "Cannot read file" << endl;
+=======
+                cout << "Cannot read file, please enter the \"lp\" file path in the options" << endl;
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
                 exit(0);
         }
 
@@ -171,6 +179,8 @@ void simplex::printTab(){
 }
 
 void simplex::calc(){
+<<<<<<< HEAD
+=======
 
         if(second_step)
                 cout << "2 steps" << endl;
@@ -179,8 +189,25 @@ void simplex::calc(){
                 cout << "Object is Maximize" << endl;
         if(obj == MINIMIZE)
                 cout << "Object is Minimize" << endl;
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
+
+        if(second_step)
+                cout << "2 steps" << endl;
+
+<<<<<<< HEAD
+        if(obj == MAXIMIZE)
+                cout << "Object is Maximize" << endl;
+        if(obj == MINIMIZE)
+                cout << "Object is Minimize" << endl;
 
         inputTab(); //配列に格納
+=======
+        bool second_flag = false;
+        if(!second_step)
+                for(int i = 0; i < tab.size(); ++i)
+                        for(int j = 0; j < slack; ++j)
+                                if(tab[i][tab[i].size()-2-j]*tab[i][tab[i].size()-1] < 0) second_flag = true;
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
 
         bool second_flag = false; //2段階が必要かどうか
         if(!second_step)
@@ -188,6 +215,7 @@ void simplex::calc(){
                         for(int j = 0; j < slack; ++j)
                                 if(tab[i][tab[i].size()-2-j]*tab[i][tab[i].size()-1] < 0) second_flag = true;
 
+<<<<<<< HEAD
         if(second_flag) { //2段階
                 simplex lp2; //2段階用のオブジェクト
 
@@ -215,19 +243,51 @@ void simplex::calc(){
                                 for(int j = 0; j < lp2.base.size(); ++j) //制約式正負反転
                                         lp2.restriction[i-1][lp2.base[j]] *= -1;
                                 lp2.con_num[i] *= -1; //定数項正負反転
+=======
+                lp2.obj = MAXIMIZE;
+                lp2.second_step = true;
+                copy(restriction.begin(), restriction.end(), back_inserter(lp2.restriction));
+                copy(con_num.begin(), con_num.end(), back_inserter(lp2.con_num));
+                copy(base.begin(), base.end(), back_inserter(lp2.base));
+
+                for(int i = 0; i < lp2.con_num.size(); ++i) {
+                        if(lp2.con_num[i] > 0) {
+                                ++lp2.sub;
+                                string data = "w_" + to_string(lp2.sub);
+                                lp2.obj_func[data] = -1;
+                                lp2.base.emplace_back(data);
+                                lp2.restriction[i-1][data] = 1;
+                        }
+                        if(lp2.con_num[i] < 0) {
+                                ++lp2.sub;
+                                string data = "w_" + to_string(lp2.sub);
+                                lp2.obj_func[data] = -1;
+                                lp2.base.emplace_back(data);
+                                lp2.restriction[i-1][data] = -1;
+                                for(int j = 0; j < lp2.base.size(); ++j)
+                                        lp2.restriction[i-1][lp2.base[j]] *= -1;
+                                lp2.con_num[i] *= -1;
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
                         }
                         lp2.con_num[0] -= lp2.con_num[i]; //目的関数定数計算
                 }
 
                 for(int i = 0; i < lp2.restriction.size(); ++i)
                         for(int j = 0; j < lp2.base.size(); ++j)
+<<<<<<< HEAD
                                 lp2.obj_func[lp2.base[j]] += lp2.restriction[i][lp2.base[j]]; //目的関数係数計算
 
                 lp2.calc(); //2段階計算
+=======
+                                lp2.obj_func[lp2.base[j]] += lp2.restriction[i][lp2.base[j]];
+
+                lp2.calc();
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
 
                 //計算結果を元の配列に格納
                 for(int i = 1; i < tab.size(); ++i) {
                         for(int j = 1; j < tab[i].size()-1; ++j)
+<<<<<<< HEAD
                                 tab[i][j] = lp2.tab[i][j]; //配列コピー
                         tab[i][tab[i].size()-1] = lp2.tab[i][lp2.tab[i].size()-1]; //定数項コピー
                 }
@@ -236,6 +296,14 @@ void simplex::calc(){
                 for(int i = 1; i < tab[0].size(); ++i) {
                         int x = -1;
                         //基底変数を見つける
+=======
+                                tab[i][j] = lp2.tab[i][j];
+                        tab[i][tab[i].size()-1] = lp2.tab[i][lp2.tab[i].size()-1];
+                }
+
+                for(int i = 1; i < tab[0].size(); ++i) {
+                        int x = -1;
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
                         for(int j = 1; j < tab.size(); ++j) {
                                 if(tab[j][i] == 0) continue;
                                 if(tab[j][i] == 1) x = j;
@@ -330,11 +398,18 @@ int main(int argc, char **filename){ //オプションにファイル名(lpフ�
 
         simplex lp;
 
+<<<<<<< HEAD
         lp.fileload(filename[1]); //ファイルから入力
         cout << endl;
         lp.calc(); //計算
 
         //結果出力
+=======
+        lp.fileload(filename[1]);
+        cout << endl;
+        lp.calc();
+
+>>>>>>> 56eaefdd92b4ca13d696a7d76eb4c6f81e9f2f56
         cout << "ANS" << endl;
         for(int i = 0; i < lp.base.size() - lp.slack; ++i)
                 cout << lp.base[i] << " = " << lp.ans[lp.base[i]] << endl;
