@@ -35,8 +35,13 @@ Maximize
  r_3: 2 x_1 + x_2 <= 4
 End
 ```
-### Rules
-#### 1.
+**Rules**
+#### 1. The first line is "Maximize" or "Minimize"
+#### 2. Objective function after "obj:"
+#### 3. Restriction after “r_num:”
+#### 4. In formulas, spaces are required between numbers, signs, and inequality signs
+#### 5. Each variable is non-negative
+#### 6. "End" is required at the end of the file
 
 ## 3. Dependencies
 
