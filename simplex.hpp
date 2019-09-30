@@ -267,34 +267,35 @@ void simplex::calc(){
                 float p,min;
 
                 if(second_step)
-                        if(tab[0][tab[0].size()-1] > -0.000001) break;
+                        if(tab[0][tab[0].size()-1] > -0.0001) break;
 
                 // 列選択
-                min = 9999;
-                for (int i = 1; i < tab[0].size()-1; ++i) {
-                        if (tab[0][i] <= min) {
-                                min = tab[0][i];
-                                y = i;
-                        }
-                }
-                if (min >= 0) break;
-
-                //添字係数規則
-                //bool flag = true;
+                //min = 9999.9;
                 //for (int i = 1; i < tab[0].size()-1; ++i) {
-                //        if (tab[0][i] < 0) {
+                //        if (tab[0][i] <= min) {
+                //                min = tab[0][i];
                 //                y = i;
-                //                flag = false;
                 //        }
                 //}
-                //if(flag) break;
+                //if (min >= 0) break;
+
+                //添字係数規則
+                bool flag = true;
+                for (int i = 1; i < tab[0].size()-1; ++i) {
+                        if (tab[0][i] < 0) {
+                                y = i;
+                                flag = false;
+                        }
+                }
+                if(flag) break;
 
                 // 行選択
-                min = 9999;
+                min = 9999.9;
                 for (int i = 1; i < tab.size(); ++i) {
-                        if(tab[i][tab[i].size()-1] < 0) continue;
+                        //if(tab[i][tab[i].size()-1] < 0) continue;
                         float f = tab[i][tab[i].size()-1]/tab[i][y];
-                        if (tab[i][y] > 0 && f < min) {
+                        //if (tab[i][y] > 0 && f < min) {
+                        if (0 <= f && f <= min) {
                                 min = f;
                                 x = i;
                         }
@@ -304,9 +305,8 @@ void simplex::calc(){
                 p = tab[x][y];
 
                 // ピボット係数を p で除算
-                for (int i = 0; i < tab[x].size(); ++i) {
+                for (int i = 0; i < tab[x].size(); ++i)
                         tab[x][i] = tab[x][i] / p;
-                }
 
                 // ピボット列の掃き出し
                 for (int i = 0; i < tab.size(); i++) {
@@ -331,5 +331,6 @@ void simplex::calc(){
                         }
                 }
                 ans["z"] = tab[0][tab[0].size()-1];
+                if(obj == MINIMIZE) ans["z"] *= -1;
         }
 }
